@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Professional Resume Builder</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Professional Resume Builder</h1>
+    <p>Fill in your details below and choose a template.</p>
+
+    <form method="POST" action="resume1/">
+      {% csrf_token %}
+      <label>Full Name</label>
+      <input type="text" name="name" required>
+
+      <label>Job Title</label>
+      <input type="text" name="title" required>
+
+      <label>Email</label>
+      <input type="email" name="email" required>
+
+      <label>Phone</label>
+      <input type="text" name="phone" required>
+
+      <label>Professional Summary</label>
+      <textarea name="summary" rows="4"></textarea>
+
+      <label>Skills (comma separated)</label>
+      <textarea name="skills" rows="2"></textarea>
+
+      <label>Work Experience (one per line)</label>
+      <textarea name="experience" rows="5"></textarea>
+
+      <label>Education (one per line)</label>
+      <textarea name="education" rows="4"></textarea>
+
+      <button type="submit">Generate Resume (Template 1)</button>
+    </form>
+
+    <form method="POST" action="resume2/">
+      {% csrf_token %}
+      <input type="hidden" name="name">
+      <input type="hidden" name="title">
+      <input type="hidden" name="email">
+      <input type="hidden" name="phone">
+      <input type="hidden" name="summary">
+      <input type="hidden" name="skills">
+      <input type="hidden" name="experience">
+      <input type="hidden" name="education">
+      <button type="submit">Generate Resume (Template 2)</button>
+    </form>
+  </div>
+
+  <script>
+    // Copies values from first form into second template form before submit
+    const form1 = document.querySelector("form[action='resume1/']");
+    const form2 = document.querySelector("form[action='resume2/']");
+    form2.addEventListener("submit", () => {
+      ["name","title","email","phone","summary","skills","experience","education"]
+        .forEach(field => form2.querySelector(`[name='${field}']`).value = form1.querySelector(`[name='${field}']`).value);
+    });
+  </script>
+</body>
+</html>
